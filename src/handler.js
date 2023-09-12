@@ -3,16 +3,19 @@ const notes = require('./notes');
 
 const addNoteHandler = (request, h) => {
   const { title, tags, body } = request.payload;
+  // console.log(title, tags, body);
+  // console.log(request.payload.title);
 
   const id = nanoid(16);
   const createdAt = new Date().toISOString();
   const updatedAt = createdAt;
 
   const newNote = {
-    title, tags, body, createdAt, updatedAt,
+    id, title, tags, body, createdAt, updatedAt,
   };
 
   notes.push(newNote);
+  console.log(notes);
 
   const isSuccess = notes.filter((note) => note.id === id).length > 0;
 
@@ -37,4 +40,11 @@ const addNoteHandler = (request, h) => {
   return response;
 };
 
-module.exports = { addNoteHandler };
+const getAllNoteHandler = () => ({
+  status: 'Success',
+  data: {
+    notes,
+  },
+});
+
+module.exports = { addNoteHandler, getAllNoteHandler };
